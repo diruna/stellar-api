@@ -95,7 +95,7 @@ class ApiClient
         $this->baseUrl = $baseUrl;
         $this->httpClient = new Client([
             'base_uri' => $baseUrl,
-            'exceptions' => false,
+            'exceptions' => true,
         ]);
         $this->networkPassphrase = $networkPassphrase;
     }
@@ -497,7 +497,7 @@ class ApiClient
             $decoded = null;
             if ($e->getResponse()) {
                 $decoded = Json::mustDecode($e->getResponse()->getBody());
-                throw PostTransactionException::fromRawResponse($relativeUrl, 'POST', $decoded);
+                throw PostTransactionException::fromRawResponse($relativeUrl, 'POST', $decoded, $e);
             }
             // No response, something else went wrong
             else {
